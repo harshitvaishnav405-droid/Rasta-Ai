@@ -1,49 +1,157 @@
-function speak(text) {
+<!DOCTYPE html>
 
-  if (!("speechSynthesis" in window)) {
+<html lang="hi">
 
-    alert("Voice support उपलब्ध नहीं है");
+<head>
 
-    return;
+<meta charset="UTF-8">
 
-  }
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  speechSynthesis.cancel();
+<title>Rasta AI</title>
 
-  const msg = new SpeechSynthesisUtterance(text);
+<style>
 
-  const voices = speechSynthesis.getVoices();
+*{box-sizing:border-box}
 
-  const hindiVoices = voices.filter(v =>
+body{
 
-    v.lang.toLowerCase().startsWith("hi")
+margin:0;min-height:100vh;
 
-  );
+font-family:Arial,sans-serif;
 
-  const femaleVoice = hindiVoices.find(v =>
+color:white;
 
-    /female|woman|swara|heera|kalpana/i.test(v.name)
+background:radial-gradient(circle at 50% 35%,#243b75,#090d20 65%);
 
-  );
+display:flex;justify-content:center;align-items:center;
 
-  if (femaleVoice) {
+padding:20px;
 
-    msg.voice = femaleVoice;
+}
 
-  } else if (hindiVoices.length > 0) {
+.app{text-align:center;width:100%;max-width:430px}
 
-    msg.voice = hindiVoices[0];
+h1{font-size:36px;margin:10px}
 
-  }
+h1 span{color:#61e8ff}
 
-  msg.lang = "hi-IN";
+.tag{color:#bdc9e9;font-size:16px}
 
-  msg.rate = 0.88;
+.orb{
 
-  msg.pitch = 1.08;
+width:190px;height:190px;border-radius:50%;
 
-  msg.volume = 1;
+margin:55px auto 25px;
 
-  speechSynthesis.speak(msg);
+background:radial-gradient(circle at 35% 30%,#fff,#64eaff 15%,#6556ff 45%,#111b55 75%);
+
+box-shadow:0 0 35px #4ce5ff,0 0 90px #6255ff;
+
+display:flex;align-items:center;justify-content:center;
+
+font-size:25px;font-weight:bold;
+
+cursor:pointer;
+
+animation:pulse 2s infinite;
+
+}
+
+@keyframes pulse{
+
+50%{transform:scale(1.07);box-shadow:0 0 65px #4ce5ff,0 0 110px #6255ff}
+
+}
+
+#answer{min-height:55px;color:#dce8ff;font-size:17px;line-height:1.5}
+
+input{
+
+width:100%;padding:17px;border-radius:30px;
+
+border:1px solid #697bb0;background:#17213d;
+
+color:white;font-size:16px;outline:none;
+
+}
+
+button{
+
+padding:15px 25px;border:0;border-radius:30px;
+
+background:linear-gradient(90deg,#5d6cff,#26d9ed);
+
+color:white;font-size:16px;font-weight:bold;
+
+margin-top:15px;cursor:pointer;
+
+}
+
+.small{color:#8e9dc3;font-size:13px;margin-top:30px}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="app">
+
+<h1>Rasta <span>AI</span></h1>
+
+<p class="tag">India hai toh Rasta AI hai 🇮🇳</p>
+
+<div class="orb" onclick="startAI()">TAP</div>
+
+<p id="answer">मुझसे बात करने के लिए TAP करें</p>
+
+<input id="question" placeholder="अपनी समस्या यहाँ लिखें...">
+
+<br>
+
+<button onclick="askAI()">पूछें ✨</button>
+
+<p class="small">Your Smart AI Assistant</p>
+
+</div>
+
+<script>
+
+function speak(text){
+
+let msg=new SpeechSynthesisUtterance(text);
+
+msg.lang="hi-IN";
+
+msg.rate=0.9;
+
+speechSynthesis.cancel();
+
+speechSynthesis.speak(msg);
+
+}
+
+function startAI(){
+
+let text="नमस्ते! मैं Rasta AI हूँ। बताइए, मैं आपकी क्या मदद करूँ?";
+
+document.getElementById("answer").innerText=text;
+
+speak(text);
+
+}
+
+function askAI(){
+
+let q=document.getElementById("question").value.trim();
+
+if(!q)return;
+
+let text="आपने पूछा है: "+q+"। मैं आपकी मदद करने के लिए तैयार हूँ।";
+
+document.getElementById("answer").innerText=text;
+
+speak(text);
 
 }
